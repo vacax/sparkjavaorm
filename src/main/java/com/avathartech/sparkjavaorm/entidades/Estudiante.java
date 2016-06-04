@@ -1,10 +1,8 @@
 package com.avathartech.sparkjavaorm.entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by vacax on 02/06/16.
@@ -13,16 +11,21 @@ import java.io.Serializable;
 public class Estudiante implements Serializable {
 
     @Id
+    private
     int matricula;
-    String nombre;
+    private String nombre;
+
+    @ManyToMany(mappedBy = "listaEstudiante", fetch = FetchType.EAGER) //indicando que la carga será en linea.
+    private Set<Clase> listaClases; //La duena de la relación es la clase estudiante
+
 
     public Estudiante(){
 
     }
 
     public Estudiante(int matricula, String nombre) {
-        this.matricula = matricula;
-        this.nombre = nombre;
+        this.setMatricula(matricula);
+        this.setNombre(nombre);
     }
 
     public int getMatricula() {
@@ -44,8 +47,16 @@ public class Estudiante implements Serializable {
     @PreUpdate
     @PrePersist
     private void cancelarMatricula(){
-        if(matricula == 20011137){
+        if(getMatricula() == 20011137){
               throw new RuntimeException("No puede ser esa matricula..");
         }
+    }
+
+    public Set<Clase> getListaClases() {
+        return listaClases;
+    }
+
+    public void setListaClases(Set<Clase> listaClases) {
+        this.listaClases = listaClases;
     }
 }
