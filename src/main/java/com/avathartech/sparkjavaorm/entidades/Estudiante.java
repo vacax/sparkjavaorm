@@ -11,12 +11,13 @@ import java.util.Set;
 public class Estudiante implements Serializable {
 
     @Id
-    private
-    int matricula;
+    private int matricula;
     private String nombre;
+    @Transient
+    private int edad;
 
     @ManyToMany(mappedBy = "listaEstudiante", fetch = FetchType.EAGER) //indicando que la carga será en linea.
-    private Set<Clase> listaClases; //La duena de la relación es la clase estudiante
+    private Set<Clase> listaClases; //La duena de la relación es la clase Clase
 
 
     public Estudiante(){
@@ -27,6 +28,8 @@ public class Estudiante implements Serializable {
         this.setMatricula(matricula);
         this.setNombre(nombre);
     }
+
+
 
     public int getMatricula() {
         return matricula;
@@ -58,5 +61,13 @@ public class Estudiante implements Serializable {
 
     public void setListaClases(Set<Clase> listaClases) {
         this.listaClases = listaClases;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
     }
 }

@@ -2,6 +2,10 @@ package com.avathartech.sparkjavaorm.services;
 
 import com.avathartech.sparkjavaorm.entidades.Estudiante;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.List;
+
 
 /**
  *
@@ -20,6 +24,19 @@ public class EstudianteServices extends GestionDb<Estudiante> {
             instancia = new EstudianteServices();
         }
         return instancia;
+    }
+
+    /**
+     *
+     * @param nombre
+     * @return
+     */
+    public List<Estudiante> findAllByNombre(String nombre){
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("select e from Estudiante e where e.nombre like :nombre");
+        query.setParameter("nombre", nombre+"%");
+        List<Estudiante> lista = query.getResultList();
+        return lista;
     }
 
 

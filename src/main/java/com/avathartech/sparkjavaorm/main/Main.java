@@ -5,10 +5,14 @@ import com.avathartech.sparkjavaorm.entidades.Profesor;
 import com.avathartech.sparkjavaorm.services.EstudianteServices;
 import com.avathartech.sparkjavaorm.services.ProfesorServices;
 import com.avathartech.sparkjavaorm.transformaciones.JsonTransformer;
+import spark.Filter;
+import spark.Request;
+import spark.Response;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.HashMap;
 import java.util.List;
 
 import static spark.Spark.*;
@@ -24,7 +28,14 @@ public class Main {
         //Linea para agregar la pantalla de debug. En productivo se debe quitar.
         enableDebugScreen();
 
+        staticFiles.location("/publico");
+
         JsonTransformer jsonTransformer = new JsonTransformer();
+
+        for(int i=0;i<50;i++){
+            //EstudianteServices.getInstancia().crear(new Estudiante(i, "nombre "+i));
+            ProfesorServices.getInstancia().crear(new Profesor("Profesor "+i));
+        }
 
         get("/",(request, response) ->{
             return "Ejemplo de SparkJava con JPA";
@@ -46,6 +57,10 @@ public class Main {
             return EstudianteServices.getInstancia().findAll();
         }, jsonTransformer);
 
+        get("/estudiantePorNombre/:nombre",(request, response) ->{
+            return EstudianteServices.getInstancia().findAllByNombre(request.params("nombre"));
+        }, jsonTransformer);
+
         /**
          *
          */
@@ -57,6 +72,15 @@ public class Main {
             return estudiante;
         }, jsonTransformer);
 
+        delete("/estudiante/:matricula",(request, response) ->{
+            Integer matricula = Integer.parseInt(request.params("matricula")); //omitiendo control de errores.
+            Estudiante estudiante = EstudianteServices.getInstancia().find(matricula);
+            EstudianteServices.getInstancia().eliminar(estudiante.getMatricula());
+            HashMap<String, String> hashMap=new HashMap<String, String>();
+            hashMap.put("accion", "Estudiante borrado");
+            return hashMap;
+        }, jsonTransformer);
+
         /**
          *
          */
@@ -64,6 +88,10 @@ public class Main {
             Integer id = Integer.parseInt(request.params("id")); //omitiendo control de errores.
             Profesor profesor = ProfesorServices.getInstancia().find(id);
             return profesor;
+        }, jsonTransformer);
+
+        get("/profesoresPorNombre/:nombre",(request, response) ->{
+            return ProfesorServices.getInstancia().findAllByNombre(request.params("nombre"));
         }, jsonTransformer);
 
         /**
@@ -76,6 +104,16 @@ public class Main {
             return profesor;
         }, jsonTransformer);
 
+
+
+    }
+
+    private static void notificarAdministradores(){
+        System.out.println("Aplicando el filtro...");
+    }
+
+    private static void registroLog(String url){
+        System.out.println("Aplicando el log");
     }
 
     private static void ejemplosSueltos(){

@@ -65,12 +65,13 @@ public class GestionDb<T> {
 
     /**
      *
-     * @param entidad
+     * @param entidadId
      */
-    public void eliminar(T entidad){
+    public void eliminar(Object  entidadId){
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
         try {
+            T entidad = em.find(claseEntidad, entidadId);
             em.remove(entidad);
             em.getTransaction().commit();
         }catch (Exception ex){
