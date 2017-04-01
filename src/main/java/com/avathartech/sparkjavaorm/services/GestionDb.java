@@ -92,7 +92,7 @@ public class GestionDb<T> {
         try{
             return em.find(claseEntidad, id);
         } catch (Exception ex){
-            throw  ex;
+           throw  ex;
         } finally {
             em.close();
         }
