@@ -2,8 +2,10 @@ package com.avathartech.sparkjavaorm.services;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Id;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -30,13 +32,45 @@ public class GestionDb<T> {
     /**
      *
      * @param entidad
+     * @return
+     */
+    private Object getValorCampo(T entidad){
+
+        //aplicando la clase de reflexión.
+        for(Field f : entidad.getClass().getDeclaredFields()) {  //tomando todos los campos privados.
+            if (f.isAnnotationPresent(Id.class)) {
+                try {
+                    f.setAccessible(true);
+                    Object valorCampo = f.get(entidad);
+
+                    System.out.println("nombre del campo: "+f.getName());
+                    System.out.println("Tipo del campo: "+f.getType().getName());
+                    System.out.println("Valor del campo: "+valorCampo );
+
+                    return valorCampo;
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @param entidad
      */
     public void crear(T entidad){
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
         try {
-            em.persist(entidad);
-            em.getTransaction().commit();
+            if(getValorCampo(entidad) !=null && em.find(claseEntidad, getValorCampo(entidad)) == null) { //si no existe, graba.
+                em.persist(entidad);
+                em.getTransaction().commit();
+            }else{
+                System.out.println("La entidad a guardar existe, no creada.");
+            }
         }catch (Exception ex){
             em.getTransaction().rollback();
             throw  ex;
@@ -92,7 +126,7 @@ public class GestionDb<T> {
         try{
             return em.find(claseEntidad, id);
         } catch (Exception ex){
-           throw  ex;
+            throw  ex;
         } finally {
             em.close();
         }
@@ -105,8 +139,8 @@ public class GestionDb<T> {
     public List<T> findAll(){
         EntityManager em = getEntityManager();
         try{
-           CriteriaQuery<T> criteriaQuery = em.getCriteriaBuilder().createQuery(claseEntidad);
-             criteriaQuery.select(criteriaQuery.from(claseEntidad));
+            CriteriaQuery<T> criteriaQuery = em.getCriteriaBuilder().createQuery(claseEntidad);
+            criteriaQuery.select(criteriaQuery.from(claseEntidad));
             return em.createQuery(criteriaQuery).getResultList();
         } catch (Exception ex){
             throw  ex;

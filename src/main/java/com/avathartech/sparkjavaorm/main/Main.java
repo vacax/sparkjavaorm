@@ -2,6 +2,7 @@ package com.avathartech.sparkjavaorm.main;
 
 import com.avathartech.sparkjavaorm.entidades.Estudiante;
 import com.avathartech.sparkjavaorm.entidades.Profesor;
+import com.avathartech.sparkjavaorm.services.BootStrapServices;
 import com.avathartech.sparkjavaorm.services.EstudianteServices;
 import com.avathartech.sparkjavaorm.services.ProfesorServices;
 import com.avathartech.sparkjavaorm.transformaciones.JsonTransformer;
@@ -25,6 +26,9 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //Iniciando la base de datos.
+        BootStrapServices.getInstancia().init();
+
         //Linea para agregar la pantalla de debug. En productivo se debe quitar.
         enableDebugScreen();
 
@@ -33,15 +37,19 @@ public class Main {
         JsonTransformer jsonTransformer = new JsonTransformer();
 
         for(int i=0;i<50;i++){
-            //EstudianteServices.getInstancia().crear(new Estudiante(i, "nombre "+i));
+            EstudianteServices.getInstancia().crear(new Estudiante(i, "nombre "+i));
             ProfesorServices.getInstancia().crear(new Profesor("Profesor "+i));
         }
 
+        /**
+         * Inicio de la aplicación.
+         */
         get("/",(request, response) ->{
             return "Ejemplo de SparkJava con JPA";
         });
 
         /**
+         * Consulta de un estudiante por matricula
          * Convierte a JSON la salida del objeto.
          */
         get("/estudiante/:matricula",(request, response) ->{
@@ -51,18 +59,21 @@ public class Main {
         }, jsonTransformer);
 
         /**
-         *
+         *Listar todos los estudiantes de la base da datos.
          */
         get("/estudiante",(request, response) ->{
             return EstudianteServices.getInstancia().findAll();
         }, jsonTransformer);
 
+        /**
+         * Lista los estudiantes que inicien con el 
+         */
         get("/estudiantePorNombre/:nombre",(request, response) ->{
             return EstudianteServices.getInstancia().findAllByNombre(request.params("nombre"));
         }, jsonTransformer);
 
         /**
-         *
+         * Creación de 
          */
         post("/estudiante", (request, response) -> {
             Estudiante estudiante = new Estudiante();
