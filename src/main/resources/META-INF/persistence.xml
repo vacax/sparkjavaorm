@@ -17,6 +17,7 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
             <property name="hibernate.show_sql" value="true"/>
+            <!-- Indica como será la generación de las tablas en el motor-->
             <property name="javax.persistence.schema-generation.database.action" value="create"/>
             <!--<property name="eclipselink.logging.level" value="ALL" />-->
         </properties>

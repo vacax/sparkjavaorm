@@ -29,6 +29,15 @@ public class Main {
         //Iniciando la base de datos.
         BootStrapServices.getInstancia().init();
 
+        //Inicializar las funcionalidades de Spark.
+        initSpark();
+
+        //ejemplosSueltos();
+
+
+    }
+
+    private static void initSpark() {
         //Linea para agregar la pantalla de debug. En productivo se debe quitar.
         enableDebugScreen();
 
@@ -66,14 +75,14 @@ public class Main {
         }, jsonTransformer);
 
         /**
-         * Lista los estudiantes que inicien con el 
+         * Lista los estudiantes que inicien con el
          */
         get("/estudiantePorNombre/:nombre",(request, response) ->{
             return EstudianteServices.getInstancia().findAllByNombre(request.params("nombre"));
         }, jsonTransformer);
 
         /**
-         * Creación de 
+         * Creación de
          */
         post("/estudiante", (request, response) -> {
             Estudiante estudiante = new Estudiante();
@@ -114,9 +123,6 @@ public class Main {
             ProfesorServices.getInstancia().crear(profesor);
             return profesor;
         }, jsonTransformer);
-
-
-
     }
 
     private static void notificarAdministradores(){
@@ -128,6 +134,7 @@ public class Main {
     }
 
     private static void ejemplosSueltos(){
+
         EntityManagerFactory emf =  Persistence.createEntityManagerFactory("MiUnidadPersistencia");
         EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
