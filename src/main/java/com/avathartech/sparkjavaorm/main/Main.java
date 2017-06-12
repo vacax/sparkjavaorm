@@ -123,6 +123,10 @@ public class Main {
             ProfesorServices.getInstancia().crear(profesor);
             return profesor;
         }, jsonTransformer);
+
+        get("/profesor",(request, response) ->{
+            return ProfesorServices.getInstancia().findAll();
+        }, jsonTransformer);
     }
 
     private static void notificarAdministradores(){

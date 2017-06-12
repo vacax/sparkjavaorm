@@ -35,7 +35,7 @@ public class ProfesorServices extends GestionDb<Profesor> {
     public List<Profesor> findAllByNombre(String nombre){
         EntityManager em = getEntityManager();
         Query query = em.createNamedQuery("Profesor.findAllByNombre");
-        query.setParameter("nombre", nombre+"%");
+        query.setParameter("nombre", "%"+nombre+"%");
         List<Profesor> lista = query.getResultList();
         return lista;
     }

@@ -35,7 +35,9 @@ public class GestionDb<T> {
      * @return
      */
     private Object getValorCampo(T entidad){
-
+        if(entidad == null){
+            return null;
+        }
         //aplicando la clase de reflexión.
         for(Field f : entidad.getClass().getDeclaredFields()) {  //tomando todos los campos privados.
             if (f.isAnnotationPresent(Id.class)) {
@@ -63,14 +65,22 @@ public class GestionDb<T> {
      */
     public void crear(T entidad){
         EntityManager em = getEntityManager();
+
+        try {
+            if (em.find(claseEntidad, getValorCampo(entidad)) != null) {
+                System.out.println("La entidad a guardar existe, no creada.");
+                return;
+            }
+        }catch (IllegalArgumentException ie){
+            //
+            System.out.println("Parametro ilegal.");
+        }
+        
         em.getTransaction().begin();
         try {
-            if(getValorCampo(entidad) !=null && em.find(claseEntidad, getValorCampo(entidad)) == null) { //si no existe, graba.
-                em.persist(entidad);
-                em.getTransaction().commit();
-            }else{
-                System.out.println("La entidad a guardar existe, no creada.");
-            }
+            em.persist(entidad);
+            em.getTransaction().commit();
+
         }catch (Exception ex){
             em.getTransaction().rollback();
             throw  ex;
