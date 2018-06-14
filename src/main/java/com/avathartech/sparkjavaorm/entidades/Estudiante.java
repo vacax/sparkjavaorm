@@ -20,7 +20,7 @@ public class Estudiante implements Serializable {
     private Set<Clase> listaClases; //La duena de la relación es la clase Clase
 
 
-    public Estudiante(){
+    public Estudiante(){  //Debo tener el constructor vacio...
 
     }
 
@@ -50,9 +50,9 @@ public class Estudiante implements Serializable {
     @PreUpdate
     @PrePersist
     private void cancelarMatricula(){
-        if(getMatricula() == 20011137){
+       /* if(getMatricula() == 20011137){
               throw new RuntimeException("No puede ser esa matricula..");
-        }
+        }*/
     }
 
     public Set<Clase> getListaClases() {

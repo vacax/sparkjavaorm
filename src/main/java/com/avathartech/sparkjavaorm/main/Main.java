@@ -32,6 +32,7 @@ public class Main {
         //Inicializar las funcionalidades de Spark.
         initSpark();
 
+        //Ejemplos sueltos del ORM
         //ejemplosSueltos();
 
 
@@ -147,11 +148,17 @@ public class Main {
         entityManager.persist(estudiante);
         entityManager.getTransaction().commit();
 
+        //Estudiante otroEstudiante2 = entityManager.find(Estudiante.class, 20011136);
+
         //JPQL o HQL
         List<Estudiante> lista = entityManager.createQuery("select e from Estudiante e", Estudiante.class)
                 .getResultList();
         System.out.println("La cantidad de estudiantes es: "+lista.size());
+        for(Estudiante e: lista){
+            System.out.printf("Matricula: %d - Nombre: %s \n", e.getMatricula(), e.getNombre());
+        }
 
+        
         entityManager.detach(estudiante); //quitando de la gestión el objeto.
 
         Estudiante otroEstudiante = entityManager.find(Estudiante.class, 20011136);
@@ -160,14 +167,16 @@ public class Main {
         entityManager.detach(otroEstudiante);
 
         //Actualizando una entidad desconectada haciendo merge.
+        entityManager.getTransaction().begin();
         estudiante.setNombre("Otro Nombre");
         entityManager.merge(estudiante);
+        entityManager.flush();
         entityManager.detach(estudiante);
+        entityManager.getTransaction().commit();
 
         //actualizando el otro objeto y refrescando los datos.
         otroEstudiante = entityManager.find(Estudiante.class, 20011136);
         System.out.println("El nombre del objeto: "+otroEstudiante.getNombre());
-
         entityManager.close();
         //emf.close();
 

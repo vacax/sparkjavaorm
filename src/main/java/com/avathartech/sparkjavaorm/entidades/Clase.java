@@ -9,6 +9,7 @@ import java.util.Set;
  * Created by vacax on 03/06/16.
  */
 @Entity
+@NamedQueries({@NamedQuery(name = "Clase.findAllProfesorId", query = "select p from Clase p where p.profesor.id = :id")})
 public class Clase implements Serializable {
 
     @Id
