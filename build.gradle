@@ -2,8 +2,9 @@ group 'com.avathartech'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.8                          
 
 if (!hasProperty('mainClass')) {
     ext.mainClass = 'com.avathartech.sparkjavaorm.main.Main'
