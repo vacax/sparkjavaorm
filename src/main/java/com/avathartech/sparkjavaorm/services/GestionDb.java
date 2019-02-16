@@ -30,7 +30,7 @@ public class GestionDb<T> {
     }
 
     /**
-     *
+     * Metodo para obtener el valor del campo anotado como @ID.
      * @param entidad
      * @return
      */

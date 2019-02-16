@@ -18,7 +18,7 @@ public class Profesor implements Serializable {
 
     //Indicando las referencias bidireccional de la entidad Clase.
     @OneToMany(mappedBy = "profesor", fetch = FetchType.EAGER) // La clase "Clase" es la dueña de la relación.
-    private Set<Clase> listaClases;
+    private Set<GrupoClase> listaClases;
 
 
     public Profesor(){

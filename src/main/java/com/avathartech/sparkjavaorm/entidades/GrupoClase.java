@@ -9,8 +9,8 @@ import java.util.Set;
  * Created by vacax on 03/06/16.
  */
 @Entity
-@NamedQueries({@NamedQuery(name = "Clase.findAllProfesorId", query = "select p from Clase p where p.profesor.id = :id")})
-public class Clase implements Serializable {
+@NamedQueries({@NamedQuery(name = "Clase.findAllProfesorId", query = "select p from GrupoClase p where p.profesor.id = :id")})
+public class GrupoClase implements Serializable {
 
     @Id
     private Long id;
@@ -23,10 +23,10 @@ public class Clase implements Serializable {
     @ManyToMany() //
     private Set<Estudiante> listaEstudiante; //Relación mucho a mucho entre estudiante y clase, de forma implicita.
 
-    public Clase() {
+    public GrupoClase() {
     }
 
-    public Clase(Long id, String clave, String nombre, Profesor profesor, Set<Estudiante> listaEstudiante) {
+    public GrupoClase(Long id, String clave, String nombre, Profesor profesor, Set<Estudiante> listaEstudiante) {
         this.id = id;
         this.clave = clave;
         this.nombre = nombre;

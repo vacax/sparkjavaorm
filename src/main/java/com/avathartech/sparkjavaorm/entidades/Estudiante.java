@@ -2,6 +2,7 @@ package com.avathartech.sparkjavaorm.entidades;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -13,11 +14,12 @@ public class Estudiante implements Serializable {
     @Id
     private int matricula;
     private String nombre;
+    private Date fechaNacimiento;
     @Transient
     private int edad;
 
     @ManyToMany(mappedBy = "listaEstudiante", fetch = FetchType.EAGER) //indicando que la carga será en linea.
-    private Set<Clase> listaClases; //La duena de la relación es la clase Clase
+    private Set<GrupoClase> listaClases; //La duena de la relación es la clase Clase
 
 
     public Estudiante(){  //Debo tener el constructor vacio...
@@ -55,19 +57,27 @@ public class Estudiante implements Serializable {
         }*/
     }
 
-    public Set<Clase> getListaClases() {
+    public Set<GrupoClase> getListaClases() {
         return listaClases;
     }
 
-    public void setListaClases(Set<Clase> listaClases) {
+    public void setListaClases(Set<GrupoClase> listaClases) {
         this.listaClases = listaClases;
     }
 
     public int getEdad() {
+        //La edad viene del campo evaluado del fechaNacimiento
+        edad = 12; //calcular la fecha ......
         return edad;
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 }

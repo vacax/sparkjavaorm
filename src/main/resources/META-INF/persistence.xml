@@ -7,7 +7,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.avathartech.sparkjavaorm.entidades.Estudiante</class>
         <class>com.avathartech.sparkjavaorm.entidades.Profesor</class>
-        <class>com.avathartech.sparkjavaorm.entidades.Clase</class>
+        <class>com.avathartech.sparkjavaorm.entidades.GrupoClase</class>
         <properties>
             <!--<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test" />-->
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/sparkjavaorm" />
@@ -18,6 +18,27 @@
             <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
             <property name="hibernate.show_sql" value="true"/>
             <!-- Indica como será la generación de las tablas en el motor-->
+            <property name="javax.persistence.schema-generation.database.action" value="update"/>
+            <!--<property name="eclipselink.logging.level" value="ALL" />-->
+        </properties>
+    </persistence-unit>
+    <!--Puedo tener varias unidades de persistencia en función a la conexión que necesito-->
+    <persistence-unit name="MiUnidadPersistencia-Prueba" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.avathartech.sparkjavaorm.entidades.Estudiante</class>
+        <class>com.avathartech.sparkjavaorm.entidades.Profesor</class>
+        <class>com.avathartech.sparkjavaorm.entidades.GrupoClase</class>
+        <properties>
+            <!--<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test" />-->
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/sparkjavaormtest" />
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+            <property name="javax.persistence.jdbc.user" value="sa" />
+            <property name="javax.persistence.jdbc.password" value="" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
+            <property name="hibernate.show_sql" value="true"/>
+            <!-- Indica como será la generación de las tablas en el motor-->
+            <!-- ver la documentación: https://docs.oracle.com/javaee/7/tutorial/persistence-intro005.htm -->
             <property name="javax.persistence.schema-generation.database.action" value="update"/>
             <!--<property name="eclipselink.logging.level" value="ALL" />-->
         </properties>

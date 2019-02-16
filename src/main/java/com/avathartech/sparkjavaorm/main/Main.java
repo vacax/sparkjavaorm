@@ -38,6 +38,10 @@ public class Main {
 
     }
 
+    /**
+     * Inicializa la clase la base de datos, Spark
+     * para la prueba de 
+     */
     private static void initSpark() {
         //Linea para agregar la pantalla de debug. En productivo se debe quitar.
         enableDebugScreen();
@@ -83,7 +87,7 @@ public class Main {
         }, jsonTransformer);
 
         /**
-         * Creación de
+         * Creación de un estudiante.
          */
         post("/estudiante", (request, response) -> {
             Estudiante estudiante = new Estudiante();
@@ -93,6 +97,9 @@ public class Main {
             return estudiante;
         }, jsonTransformer);
 
+        /**
+         * Eliminar una estudiante.
+         */
         delete("/estudiante/:matricula",(request, response) ->{
             Integer matricula = Integer.parseInt(request.params("matricula")); //omitiendo control de errores.
             Estudiante estudiante = EstudianteServices.getInstancia().find(matricula);
@@ -138,11 +145,15 @@ public class Main {
         System.out.println("Aplicando el log");
     }
 
+    /**
+     * 
+     */
     private static void ejemplosSueltos(){
 
+        //
         EntityManagerFactory emf =  Persistence.createEntityManagerFactory("MiUnidadPersistencia");
         EntityManager entityManager = emf.createEntityManager();
-        entityManager.getTransaction().begin();
+        entityManager.getTransaction().begin(); //Inicializo la transa...
 
         Estudiante estudiante = new Estudiante(20011136, "Carlos Camacho");
         entityManager.persist(estudiante);
