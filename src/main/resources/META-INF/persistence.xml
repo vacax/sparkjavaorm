@@ -18,6 +18,7 @@
             <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
             <property name="hibernate.show_sql" value="true"/>
             <!-- Indica como será la generación de las tablas en el motor-->
+            <!-- ver la documentación: https://docs.oracle.com/javaee/7/tutorial/persistence-intro005.htm -->
             <property name="javax.persistence.schema-generation.database.action" value="update"/>
             <!--<property name="eclipselink.logging.level" value="ALL" />-->
         </properties>
