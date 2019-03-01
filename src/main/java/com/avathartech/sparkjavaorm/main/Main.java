@@ -6,9 +6,6 @@ import com.avathartech.sparkjavaorm.services.BootStrapServices;
 import com.avathartech.sparkjavaorm.services.EstudianteServices;
 import com.avathartech.sparkjavaorm.services.ProfesorServices;
 import com.avathartech.sparkjavaorm.transformaciones.JsonTransformer;
-import spark.Filter;
-import spark.Request;
-import spark.Response;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -84,6 +81,13 @@ public class Main {
          */
         get("/estudiantePorNombre/:nombre",(request, response) ->{
             return EstudianteServices.getInstancia().findAllByNombre(request.params("nombre"));
+        }, jsonTransformer);
+
+        /**
+         * Lista los estudiantes, pero desde una consulta nativa.
+         */
+        get("/estudianteNativo",(request, response) ->{
+            return EstudianteServices.getInstancia().consultaNativa();
         }, jsonTransformer);
 
         /**

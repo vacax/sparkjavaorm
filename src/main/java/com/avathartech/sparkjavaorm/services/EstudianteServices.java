@@ -39,5 +39,13 @@ public class EstudianteServices extends GestionDb<Estudiante> {
         return lista;
     }
 
+    public List<Estudiante> consultaNativa(){
+        EntityManager em = getEntityManager();
+        Query query = em.createNativeQuery("select * from estudiante ", Estudiante.class);
+        //query.setParameter("nombre", apellido+"%");
+        List<Estudiante> lista = query.getResultList();
+        return lista;
+    }
+
 
 }

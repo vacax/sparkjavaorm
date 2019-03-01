@@ -12,7 +12,7 @@ import java.util.Set;
 public class Profesor implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //crear el ID de forma automatica
     private Integer id;
     private String nombre;
 

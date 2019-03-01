@@ -14,6 +14,7 @@ public class Estudiante implements Serializable {
     @Id
     private int matricula;
     private String nombre;
+    @Column(name = "mi_fecha_nacimiento") //indica que el nombre en la tabla
     private Date fechaNacimiento;
     @Transient
     private int edad;
@@ -52,9 +53,9 @@ public class Estudiante implements Serializable {
     @PreUpdate
     @PrePersist
     private void cancelarMatricula(){
-       /* if(getMatricula() == 20011137){
+        if(getMatricula() == 20011137){
               throw new RuntimeException("No puede ser esa matricula..");
-        }*/
+        }
     }
 
     public Set<GrupoClase> getListaClases() {
