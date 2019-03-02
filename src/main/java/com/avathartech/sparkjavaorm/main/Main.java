@@ -41,6 +41,12 @@ public class Main {
 
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Cerrando la aplicación de forma correcta...");
+        super.finalize();
+    }
+
     /**
      * Inicializa la clase la base de datos, Spark
      * para la prueba de 
