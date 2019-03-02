@@ -85,6 +85,7 @@ public class Main {
          *Listar todos los estudiantes de la base da datos.
          */
         get("/estudiante",(request, response) ->{
+            response.header("Content-Type", "application/json");
             return EstudianteServices.getInstancia().findAll();
         }, jsonTransformer);
 
