@@ -23,6 +23,12 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //instrucción para cambiar el puerto.
+        if(args.length>0){
+            System.out.println("Cambiando el puerto: "+args[0]);
+            port(Integer.parseInt(args[0]));
+        }
+
         //Iniciando la base de datos.
         BootStrapServices.getInstancia().init();
 
